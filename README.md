@@ -11,4 +11,6 @@ Add plugin to the runtime path.
 ```VimL
 Plug 'dm1try/golden_size'
 ```
+## Inspiration
 
+https://github.com/roman/golden-ratio
