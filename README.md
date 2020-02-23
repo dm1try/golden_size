@@ -2,6 +2,8 @@
 
 This is a Neovim plugin for automatically resizing the active window to the ["golden"](https://en.wikipedia.org/wiki/Golden_ratio) size.
 
+![demo](demo.gif)
+
 ## Installation
 
 Add plugin to the runtime path.
