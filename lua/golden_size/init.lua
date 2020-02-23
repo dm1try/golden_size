@@ -1,6 +1,11 @@
 local GOLDEN_RATIO = 1.618
 
 local function on_win_enter()
+  local current_config = vim.api.nvim_win_get_config(0)
+  if current_config['relative'] ~= '' then
+    return
+  end
+
   local columns = vim.api.nvim_get_option("columns")
   local rows = vim.api.nvim_get_option("lines")
   local current_height = vim.api.nvim_win_get_height(0)

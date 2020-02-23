@@ -31,4 +31,20 @@ describe('golden size', function()
    command('vsp')
    eq(nvim('win_get_width', 0), expected_width)
  end)
+
+ function open_float_win(opts)
+   local buf = nvim('create_buf', false, true)
+   nvim('buf_set_lines', buf, 0, -1, true, {"test"})
+   local opts = {relative='win', width=opts['width'], height=10, col=0, row=1}
+   local win = nvim('open_win', buf, 0, opts)
+   return win
+ end
+
+ it('does not resize float windows', function()
+   local expected_width = 10
+   local float_win = open_float_win({width = expected_width})
+
+   nvim('set_current_win', float_win)
+   eq(nvim('win_get_width', 0), expected_width)
+ end)
 end)
