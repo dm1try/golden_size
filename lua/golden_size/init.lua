@@ -12,7 +12,22 @@ local function ignore_float_windows()
   end
 end
 
-local DEFAULT_IGNORE_CALLBACKS = {ignore_float_windows}
+local function ignore_by_window_flag()
+  local ignore_golden_size = 0
+
+  local status, result = pcall(vim.api.nvim_win_get_var, 0, 'ignore_golden_size')
+  if status then
+    ignore_golden_size = result
+  end
+
+  if ignore_golden_size == 1 then
+    return 1
+  else
+    return 0
+  end
+end
+
+local DEFAULT_IGNORE_CALLBACKS = {ignore_float_windows, ignore_by_window_flag}
 ignore_callbacks = DEFAULT_IGNORE_CALLBACKS
 
 local function on_win_enter()
@@ -41,6 +56,7 @@ end
 return {
   on_win_enter = on_win_enter,
   set_ignore_callbacks = set_ignore_callbacks,
+  ignore_by_window_flag = ignore_by_window_flag,
   ignore_float_windows = ignore_float_windows,
   DEFAULT_IGNORE_CALLBACKS = DEFAULT_IGNORE_CALLBACKS
 }
