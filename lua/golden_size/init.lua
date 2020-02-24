@@ -1,9 +1,25 @@
 local GOLDEN_RATIO = 1.618
+local ignore_callbacks = {}
 
-local function on_win_enter()
+local function set_ignore_callbacks(callbacks)
+  ignore_callbacks = callbacks
+end
+
+local function ignore_float_windows()
   local current_config = vim.api.nvim_win_get_config(0)
   if current_config['relative'] ~= '' then
-    return
+    return 1
+  end
+end
+
+local DEFAULT_IGNORE_CALLBACKS = {ignore_float_windows}
+ignore_callbacks = DEFAULT_IGNORE_CALLBACKS
+
+local function on_win_enter()
+  for current_callback_index = 1, #ignore_callbacks do
+    if ignore_callbacks[current_callback_index]() == 1 then
+      return
+    end
   end
 
   local columns = vim.api.nvim_get_option("columns")
@@ -23,5 +39,8 @@ local function on_win_enter()
 end
 
 return {
-  on_win_enter = on_win_enter
+  on_win_enter = on_win_enter,
+  set_ignore_callbacks = set_ignore_callbacks,
+  ignore_float_windows = ignore_float_windows,
+  DEFAULT_IGNORE_CALLBACKS = DEFAULT_IGNORE_CALLBACKS
 }

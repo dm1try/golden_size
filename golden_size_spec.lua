@@ -43,8 +43,17 @@ describe('golden size', function()
  it('does not resize float windows', function()
    local expected_width = 10
    local float_win = open_float_win({width = expected_width})
-
    nvim('set_current_win', float_win)
    eq(nvim('win_get_width', 0), expected_width)
+ end)
+
+ it('allows to set custom ignore callbacks', function()
+   command('lua function ignore_all() return 1 end')
+   command('lua golden_size.set_ignore_callbacks({ignore_all})')
+
+   command('vsp')
+
+   local default_width_after_split = screen_width / 2
+   eq(nvim('win_get_width', 0), default_width_after_split)
  end)
 end)
