@@ -27,12 +27,15 @@ local function ignore_by_window_flag()
   end
 end
 
-local DEFAULT_IGNORE_CALLBACKS = {ignore_float_windows, ignore_by_window_flag}
+local DEFAULT_IGNORE_CALLBACKS = {{ignore_float_windows}, {ignore_by_window_flag}}
 ignore_callbacks = DEFAULT_IGNORE_CALLBACKS
 
 local function on_win_enter()
   for current_callback_index = 1, #ignore_callbacks do
-    if ignore_callbacks[current_callback_index]() == 1 then
+    local callback = ignore_callbacks[current_callback_index][1]
+    local callback_args = ignore_callbacks[current_callback_index][2]
+
+    if callback(callback_args) == 1 then
       return
     end
   end

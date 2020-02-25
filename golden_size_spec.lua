@@ -49,7 +49,7 @@ describe('golden size', function()
 
  it('allows to set custom ignore callbacks', function()
    command('lua function ignore_all() return 1 end')
-   command('lua golden_size.set_ignore_callbacks({ignore_all})')
+   command('lua golden_size.set_ignore_callbacks({ { ignore_all } })')
 
    command('vsp')
 
