@@ -9,14 +9,15 @@ describe('golden size', function()
  local screen
  local screen_width = 80
 
+ local plugin_dir = os.getenv("TEST_FILE"):match("(.*/)")
+
  before_each(function()
    clear()
    screen = Screen.new(screen_width, 20)
    screen:attach()
 
-   -- TODO: do not hardcode path to the plugin source
-   command('set rtp+=' .. alter_slashes('../golden_size/'))
-   command('source ' .. alter_slashes('../golden_size/plugin/golden_size.vim'))
+   command('set rtp+=' .. alter_slashes(plugin_dir))
+   command('source ' .. alter_slashes(plugin_dir .. 'plugin/golden_size.vim'))
  end)
 
  after_each(function()
