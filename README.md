@@ -15,7 +15,8 @@ Plug 'dm1try/golden_size'
 
 ```
 
-## Disable automatic resizing for specific windows
+## Tips and tricks
+### Disable automatic resizing for specific windows
 
 ```viml
 lua << EOF
@@ -34,6 +35,29 @@ golden_size.set_ignore_callbacks({
   { ignore_by_buftype, {'terminal','quickfix', 'nerdtree'} },
   { golden_size.ignore_float_windows }, -- default one, ignore float windows
   { golden_size.ignore_by_window_flag }, -- default one, ignore windows with w:ignore_gold_size=1
+})
+EOF
+``` 
+### Global Toggle 
+```lua
+lua << EOF
+
+vim.api.nvim_set_var("golden_size_off", 0)
+
+function GoldenSizeToggle()
+  local current_value = vim.api.nvim_get_var("golden_size_off")
+  vim.api.nvim_set_var("golden_size_off", current_value == 1 and 0 or 1)
+end
+
+local function golden_size_ignore()
+  return vim.api.nvim_get_var("golden_size_off")
+end
+
+local golden_size = require("golden_size")
+-- set the callbacks, preserve the defaults
+golden_size.set_ignore_callbacks({
+  { golden_size_ignore },
+  ...
 })
 EOF
 ``` 
