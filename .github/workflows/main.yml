@@ -1,0 +1,26 @@
+# This is a basic workflow to help you get started with Actions
+
+name: neovim-master
+on:
+  push:
+    branches: [ master, develop ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup neovim, master branch
+      run: |
+        mkdir -p "neovim"
+        wget https://github.com/neovim/neovim/archive/master.zip
+        unzip master.zip
+
+    - name: Install requirements
+      run: sudo apt-get install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip
+
+    - name: Run plugin tests
+      run: |
+        cd neovim-master
+        TEST_FILE=../golden_size_spec.lua make functionaltest
+

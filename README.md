@@ -1,4 +1,4 @@
-# Golden Size
+# Golden Size ![neovim-master](https://github.com/dm1try/golden_size/workflows/neovim-master/badge.svg)
 
 This is a Neovim plugin for automatically resizing the active window to the ["golden"](https://en.wikipedia.org/wiki/Golden_ratio) size.
 
