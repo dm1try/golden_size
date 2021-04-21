@@ -48,9 +48,20 @@ describe('golden size', function()
    eq(nvim('win_get_width', 0), expected_width)
  end)
 
- it('allows to set custom ignore callbacks', function()
+ it('#deprecated, allows to set custom ignore callbacks', function()
    command('lua function ignore_all() return 1 end')
    command('lua golden_size.set_ignore_callbacks({ { ignore_all } })')
+
+   command('vsp')
+
+   local default_width_after_split = screen_width / 2
+   eq(nvim('win_get_width', 0), default_width_after_split)
+ end)
+
+
+ it('allows adding user callbacks for a window checking to ignore resizing', function()
+   command('lua function ignore_all() return golden_size.IGNORE_RESIZING end')
+   command('lua golden_size.add_window_check_callback(ignore_all)')
 
    command('vsp')
 

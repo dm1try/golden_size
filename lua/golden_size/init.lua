@@ -5,6 +5,10 @@ local function set_ignore_callbacks(callbacks)
   ignore_callbacks = callbacks
 end
 
+local function add_window_check_callback(callback_name, params)
+   table.insert(ignore_callbacks, {callback_name, params})
+end
+
 local function ignore_float_windows()
   local current_config = vim.api.nvim_win_get_config(0)
   if current_config['relative'] ~= '' then
@@ -59,7 +63,9 @@ end
 return {
   on_win_enter = on_win_enter,
   set_ignore_callbacks = set_ignore_callbacks,
+  add_window_check_callback = add_window_check_callback,
   ignore_by_window_flag = ignore_by_window_flag,
   ignore_float_windows = ignore_float_windows,
-  DEFAULT_IGNORE_CALLBACKS = DEFAULT_IGNORE_CALLBACKS
+  DEFAULT_IGNORE_CALLBACKS = DEFAULT_IGNORE_CALLBACKS,
+  IGNORE_RESIZING = 1
 }
