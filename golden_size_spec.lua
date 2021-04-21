@@ -30,7 +30,7 @@ describe('golden size', function()
    eq(nvim('win_get_width', 0), screen_width)
 
    command('vsp')
-   eq(nvim('win_get_width', 0), expected_width)
+   eq(expected_width, nvim('win_get_width', 0))
  end)
 
  function open_float_win(opts)
@@ -67,5 +67,22 @@ describe('golden size', function()
 
    local default_width_after_split = screen_width / 2
    eq(nvim('win_get_width', 0), default_width_after_split)
+ end)
+
+ describe('layout resizing', function()
+   describe('two vertical splits', function()
+     before_each(function()
+       command('vsp')
+       command('vsp')
+     end)
+
+     it('#wip, fairly distributes the remaining space between not-active windows', function()
+       -- local expected_width = math.floor((screen_width - (math.floor(screen_width / 1.618))) / 2) -- 15
+       local expected_width = 14 -- TODO resolve "rounding" problem
+       local not_active_win_id = nvim('call_function', 'win_getid', {3})
+
+       eq(expected_width, nvim('win_get_width', not_active_win_id))
+     end)
+   end)
  end)
 end)
